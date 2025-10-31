@@ -1,0 +1,61 @@
+# PDFUtils - Consolidated Requirements
+# All dependencies consolidated from requirements.txt, requirements-dev.txt, and pyproject.toml
+
+# Core PDF processing
+pypdf>=4.0.0,<6.0.0  # compatible with camelot-py
+pymupdf>=1.24.0  # optional; used for compression if present
+
+# GUI components
+ttkbootstrap>=1.10.1  # optional; modern themed widgets
+
+# OCR functionality
+pytesseract>=0.3.13  # optional; OCR functionality
+Pillow>=10.4.0,<11.0.0  # compatible with ttkbootstrap
+# kraken>=3.0.13  # optional; advanced handwriting OCR (disabled due to Python 3.13 compatibility)
+opencv-python>=4.8.0  # optional; image preprocessing for OCR
+scikit-image>=0.21.0  # optional; advanced image processing
+
+# Table extraction
+camelot-py[base]>=0.11.0  # table extraction
+pdfplumber>=0.10.0  # alternative table extraction engine
+pandas>=2.0.0  # data processing for table extraction
+openpyxl>=3.1.0  # Excel file support for table extraction
+
+# Barcode functionality
+pyzbar>=0.1.9  # optional; barcode reading
+
+# Optional features
+sentry_sdk>=2.0.0  # optional; crash reporting
+
+# Testing framework
+pytest>=7.4.0
+pytest-cov>=4.1.0
+pytest-xdist>=3.3.1
+pytest-mock>=3.11.1
+pytest-qt>=4.2.0
+pytest-timeout>=2.1.0
+pytest-benchmark>=4.0.0
+pytest-randomly>=3.12.0
+pytest-instafail>=0.4.2
+pytest-sugar>=0.9.6
+pytest-parallel>=0.1.1
+pyvirtualdisplay>=3.0
+PyQt5>=5.15.11
+
+# Test dependencies
+hypothesis>=6.135  # property-based testing
+reportlab>=4.4  # required for PDF generation in tests
+segno>=1.6.1  # required for barcode generation in tests
+PyPDF2>=3.0.1  # required for password-protected PDF tests
+ttkthemes>=3.2.2  # additional Tkinter themes for testing
+pluggy>=1.5.0   # plugin architecture for testing
+Faker>=19.3.0  # test data generation
+pytest-factoryboy>=2.5.1  # factory pattern for tests
+
+# Code quality and formatting
+ruff>=0.1.0  # replaces pylint, black, isort, flake8, mypy
+
+# Documentation (optional)
+pytest-sphinx>=0.5.0
+sphinx>=7.0.1,<8.3.0  # compatible with docutils
+sphinx-rtd-theme>=1.2.2
