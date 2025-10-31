@@ -1,0 +1,71 @@
+<h3>🔍 Browser Detection & Auto-Cookie Extraction</h3>
+
+<h4>📋 How It Works:</h4>
+<p>The application automatically detects installed browsers and extracts cookies for seamless authentication.</p>
+
+<h4>🔹 Supported Browsers:</h4>
+<ul>
+    <li><b>Google Chrome:</b> Full support with profile detection</li>
+    <li><b>Microsoft Edge:</b> Full support with profile detection</li>
+    <li><b>Mozilla Firefox:</b> Full support with profile detection</li>
+    <li><b>Opera:</b> Basic support</li>
+    <li><b>Brave:</b> Basic support</li>
+</ul>
+
+<h4>⚙️ Requirements for Auto-Detection:</h4>
+<ol>
+    <li><b>Browser must be closed:</b> Close all browser windows before extraction</li>
+    <li><b>Recent YouTube activity:</b> Visit YouTube in the browser recently</li>
+    <li><b>Logged in account:</b> Be logged into your YouTube account</li>
+    <li><b>Proper permissions:</b> Application needs read access to browser data</li>
+</ol>
+
+<h4>🔧 Troubleshooting Browser Detection:</h4>
+
+<h5>❌ "No browsers detected":</h5>
+<ul>
+    <li>Ensure browsers are installed in standard locations</li>
+    <li>Check if browser data directories exist</li>
+    <li>Try running application as administrator</li>
+</ul>
+
+<h5>❌ "Cookie extraction failed":</h5>
+<ul>
+    <li><b>Most common cause:</b> Browser is still running - close it completely</li>
+    <li>Browser database file is locked by the running process</li>
+    <li>Antivirus software blocking access to browser data</li>
+    <li>Insufficient permissions to read browser data directory</li>
+</ul>
+
+<h4>⚠️ Special Note for Chrome Users:</h4>
+<p><b>Chrome must be completely closed:</b> If Chrome is currently running, it keeps cookie data in memory and only writes it to the database file when properly closed. The application cannot access cookie data while Chrome is running.</p>
+
+<p><b>How to properly close Chrome:</b></p>
+<ul>
+    <li>Close all Chrome windows (not just minimize them)</li>
+    <li>Check Task Manager to ensure no chrome.exe processes remain</li>
+    <li>Wait 10-15 seconds after closing for Chrome to fully terminate</li>
+</ul>
+
+<h4>⚠️ Special Case: "No Cookies File Found":</h4>
+<p>If Chrome is detected but no cookie files exist, this is normal in these situations:</p>
+<ul>
+    <li>Chrome has never been used to visit websites</li>
+    <li>Chrome is currently running (cookies not saved to disk yet)</li>
+    <li>Chrome was recently installed but not used</li>
+</ul>
+
+<p><b>Solution:</b></p>
+<ol>
+    <li>If Chrome is open, close it completely</li>
+    <li>Visit YouTube.com in Chrome and log in to your account</li>
+    <li>Close Chrome again (ensure all windows and processes are terminated)</li>
+    <li>Click 'Refresh Cookies' in this application</li>
+</ol>
+
+<h4>💡 Important Notes:</h4>
+<ul>
+    <li><b>Close Chrome completely:</b> Make sure all Chrome windows are closed, not just minimized</li>
+    <li><b>Wait a moment:</b> After closing Chrome, wait 5-10 seconds before refreshing cookies</li>
+    <li><b>Try multiple times:</b> Sometimes the first refresh fails but subsequent ones work</li>
+</ul>

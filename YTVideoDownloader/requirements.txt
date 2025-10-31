@@ -1,0 +1,18 @@
+yt-dlp>=2024.8.6
+customtkinter>=5.2.0
+ffmpeg-python>=0.2.0
+imageio[ffmpeg]>=2.37.0
+cryptography>=41.0.0
+pycryptodome>=3.19.0
+psutil>=5.9.0
+pywin32>=306
+
+# Build
+pyinstaller>=6.0.0
+pyinstaller-hooks-contrib>=2024.8
+
+# Note: FFmpeg is now bundled with the application for standalone executables
+# For running from source, FFmpeg must be installed separately and available in PATH
+# cryptography and pycryptodome are required for cookie decryption
+# psutil is used for browser process detection
+# pywin32 is required for full Windows DPAPI cookie decryption support

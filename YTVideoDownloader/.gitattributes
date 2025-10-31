@@ -1,0 +1,71 @@
+# Auto detect text files and perform LF normalization
+* text=auto
+
+# Common text files
+*.md text
+*.txt text
+*.rst text
+*.py text
+*.sh text
+*.bat text
+*.cmd text
+*.json text
+*.yml text
+*.yaml text
+*.xml text
+*.html text
+*.css text
+*.js text
+
+# Source code files
+*.py text eol=lf
+
+# Windows batch files
+*.bat eol=crlf
+*.cmd eol=crlf
+
+# Shell scripts
+*.sh text eol=lf
+
+# Configuration files
+*.json text eol=lf
+*.yml text eol=lf
+*.yaml text eol=lf
+
+# Documentation
+*.md text eol=lf
+*.txt text eol=lf
+README* text eol=lf
+LICENSE text eol=lf
+
+# Explicitly declare binary files
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.gif binary
+*.ico binary
+*.svg binary
+*.woff binary
+*.woff2 binary
+*.ttf binary
+*.eot binary
+*.mp4 binary
+*.avi binary
+*.mkv binary
+*.webm binary
+*.exe binary
+*.dll binary
+*.so binary
+*.dylib binary
+*.zip binary
+*.tar.gz binary
+
+# Python compiled files
+*.pyc binary
+*.pyo binary
+
+# PyInstaller
+*.spec text eol=lf
+
+# GitHub linguist
+*.spec linguist-language=Python

@@ -1,0 +1,38 @@
+# Third-Party Attributions
+
+This project uses the following third-party libraries and tools:
+
+## Core Dependencies
+
+### yt-dlp
+- **License**: Unlicense / MIT License
+- **Website**: https://github.com/yt-dlp/yt-dlp
+- **Description**: A youtube-dl fork with additional features and fixes
+
+### CustomTkinter
+- **License**: MIT License
+- **Website**: https://github.com/TomSchimansky/CustomTkinter
+- **Description**: Modern and customizable python UI-library based on Tkinter
+
+### ffmpeg-python
+- **License**: Apache License 2.0
+- **Website**: https://github.com/kkroening/ffmpeg-python
+- **Description**: Python bindings for FFmpeg
+
+### imageio[ffmpeg]
+- **License**: BSD License
+- **Website**: https://github.com/imageio/imageio-ffmpeg
+- **Description**: Package for automatically downloading and managing FFmpeg binaries
+
+## Development and Build Tools
+
+### PyInstaller
+- **License**: GNU General Public License v2 (GPLv2)
+- **Website**: https://pyinstaller.org/
+- **Description**: Bundles Python applications into stand-alone executables
+
+## Additional Notes
+
+- This project is licensed under the MIT License with additional terms (see LICENSE file)
+- The licenses of the third-party dependencies are compatible with the project's MIT License
+- Users who distribute modified versions of this software should be aware of the licensing requirements of the third-party dependencies

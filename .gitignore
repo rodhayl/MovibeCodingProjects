@@ -8,7 +8,6 @@ __pycache__/
 .Python
 build/
 develop-eggs/
-dist/
 downloads/
 eggs/
 .eggs/
@@ -24,6 +23,10 @@ share/python-wheels/
 .installed.cfg
 *.egg
 MANIFEST
+
+# Build/dist folders (but allow project-specific exceptions)
+dist/
+# Note: Individual projects may include specific executables via their own .gitignore
 
 # Virtual Environments
 .env
@@ -99,9 +102,12 @@ target/
 # C/C++ (for any C/C++ projects)
 *.o
 *.obj
-*.exe
 *.out
 *.app
+
+# Executables (but allow project-specific distribution executables)
+*.exe
+# Note: Project-specific .gitignore files may include distribution executables
 
 # Database
 *.db
@@ -119,3 +125,8 @@ credentials.json
 # Project-specific artifacts
 artifacts/
 output/
+
+# Project-specific patterns
+# PDFUtils - includes dist/PDFUtils.exe
+# YTVideoDownloader - includes dist/VideoDownloader.exe
+# (See individual project .gitignore files for specific inclusions)

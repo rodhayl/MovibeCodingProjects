@@ -29,8 +29,8 @@ Each subdirectory contains a self-contained project with its own:
 ```
 MovibeCodingProjects/
 ├── PDFUtils/              # PDF manipulation and OCR utilities
+├── YTVideoDownloader/     # YouTube and multi-platform video downloader
 ├── [Future Project 1]/    # Coming soon...
-├── [Future Project 2]/    # Coming soon...
 └── ...
 ```
 
@@ -56,6 +56,31 @@ A cross-platform desktop application for PDF manipulation with advanced OCR capa
 **Status:** ✅ Feature-complete with comprehensive test coverage
 
 [**👉 View PDFUtils README**](./PDFUtils/README.md)
+
+---
+
+### [YTVideoDownloader](./YTVideoDownloader)
+
+A cross-platform GUI application for downloading videos from YouTube, Vimeo, and many other platforms with advanced cookie management.
+
+**Key Features:**
+- Multi-platform support (YouTube, Vimeo, and more)
+- Full playlist download with video selection
+- Real-time video info fetching and format selection
+- Manual audio-video format mixing
+- Automated cookie management for YouTube authentication
+- Browser cookie extraction (Chrome, Firefox, Edge, Safari)
+- Bundled FFmpeg for seamless video/audio merging
+- Progress tracking with visual feedback
+- Custom output directory selection
+
+**Technologies:** Python, CustomTkinter, yt-dlp, FFmpeg, pytest
+
+**Status:** ✅ Feature-complete with automated cookie handling
+
+**Distribution:** Pre-built executable available at `dist/VideoDownloader.exe`
+
+[**👉 View YTVideoDownloader README**](./YTVideoDownloader/README.md)
 
 ---
 
@@ -88,12 +113,14 @@ Each project in this repository should:
 
 This repository serves as a playground for exploring:
 
-- Desktop application development (GUI frameworks)
+- Desktop application development (GUI frameworks: Tkinter, CustomTkinter)
 - Document processing and manipulation
 - OCR and computer vision
+- Media downloading and processing (video/audio)
+- Web scraping and authentication management
 - Data extraction and transformation
 - Testing strategies and test-driven development
-- Packaging and distribution
+- Packaging and distribution (PyInstaller, executables)
 - Cross-platform compatibility
 - Modern Python development practices
 
@@ -122,12 +149,12 @@ Third-party dependencies maintain their original licenses.
 
 This repository will grow as I explore new ideas and technologies. Potential areas of interest:
 
-- Web scraping utilities
-- Data visualization tools
-- Automation scripts
-- API integrations
-- CLI tools
+- Web scraping and automation utilities
+- Data visualization and analysis tools
+- API integrations and wrappers
+- CLI productivity tools
 - Machine learning experiments
+- Media processing utilities
 - And whatever sparks curiosity!
 
 ---
