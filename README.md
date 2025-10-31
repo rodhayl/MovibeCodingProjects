@@ -30,7 +30,7 @@ Each subdirectory contains a self-contained project with its own:
 MovibeCodingProjects/
 ├── PDFUtils/              # PDF manipulation and OCR utilities
 ├── YTVideoDownloader/     # YouTube and multi-platform video downloader
-├── [Future Project 1]/    # Coming soon...
+├── AIPhotoRecognitionTool/ # AI-powered photo organization and deduplication
 └── ...
 ```
 
@@ -84,6 +84,28 @@ A cross-platform GUI application for downloading videos from YouTube, Vimeo, and
 
 ---
 
+### [AIPhotoRecognitionTool](./AIPhotoRecognitionTool)
+
+An AI-powered desktop application for photo organization and deduplication using advanced object detection and similarity algorithms.
+
+**Key Features:**
+- Object detection with multiple AI models (YOLOv5, YOLOv8, RT-DETR)
+- Smart photo organization by detected objects
+- Advanced duplicate detection using multiple algorithms
+- Visual similarity analysis with perceptual hashing
+- Metadata comparison (EXIF data, camera settings)
+- GPU acceleration (CUDA, AMD DirectML, CPU fallback)
+- Modern GUI with dual-mode operation
+- Batch processing with real-time progress tracking
+
+**Technologies:** Python, Tkinter, PyTorch, Ultralytics, OpenCV, PIL
+
+**Status:** ✅ Feature-complete with GPU acceleration support
+
+[**👉 View AIPhotoRecognitionTool README**](./AIPhotoRecognitionTool/README.md)
+
+---
+
 ## 🛠️ Development Philosophy
 
 This repository embraces a **"vibe coding"** approach:
@@ -116,7 +138,11 @@ This repository serves as a playground for exploring:
 - Desktop application development (GUI frameworks: Tkinter, CustomTkinter)
 - Document processing and manipulation
 - OCR and computer vision
+- AI and machine learning (object detection, image similarity)
+- Deep learning frameworks (PyTorch, YOLO models)
+- GPU acceleration (CUDA, DirectML)
 - Media downloading and processing (video/audio)
+- Image processing and analysis
 - Web scraping and authentication management
 - Data extraction and transformation
 - Testing strategies and test-driven development
