@@ -41,6 +41,77 @@ def build(
             print("Failed to install pyinstaller. Please install it manually.")
             return code
 
+    # Packages to exclude from analysis to prevent hanging
+    excluded_packages = [
+        # AI/ML frameworks (exclude the big ones)
+        "torch",
+        "torchvision",
+        "torchaudio",
+        "tensorflow",
+        "keras",
+        "sklearn",
+        "scipy",
+        "statsmodels",
+        "seaborn",
+        "plotly",
+        "bokeh",
+        "xgboost",
+        "lightgbm",
+        "catboost",
+        # Testing and development
+        "pytest",
+        "pytest_",
+        "hypothesis",
+        "coverage",
+        "faker",
+        "factory_boy",
+        "tox",
+        "black",
+        "ruff",
+        "mypy",
+        "flake8",
+        "pylint",
+        # Documentation
+        "sphinx",
+        "sphinx_rtd_theme",
+        "nbsphinx",
+        "jupyter",
+        "nbconvert",
+        # Network/API
+        "aiohttp",
+        "requests",
+        "urllib3",
+        "httpx",
+        "trio",
+        "websockets",
+        # Database frameworks (but keep pandas for table extraction)
+        "sqlalchemy",
+        "alembic",
+        "dask",
+        "xarray",
+        # Visualization (exclude matplotlib)
+        "matplotlib",
+        "altair",
+        "dash",
+        "streamlit",
+        # Crypto
+        "cryptography",
+        "bcrypt",
+        "paramiko",
+        # Other large frameworks
+        "selenium",
+        "scrapy",
+        "transformers",
+        "diffusers",
+        "accelerate",
+        "bitsandbytes",
+        "tokenizers",
+        "sentencepiece",
+        "gradio",
+        "fastapi",
+        "uvicorn",
+    ]
+
     cmd: List[str] = [
         sys.executable,
         "-m",
@@ -59,6 +130,10 @@ def build(
         cmd.append("--windowed")
     if icon:
         cmd.extend(["--icon", icon])
+
+    # Add excludes to prevent analyzing unnecessary packages
+    for pkg in excluded_packages:
+        cmd.extend(["--exclude-module", pkg])
 
     groups = {
         "minimal": ["fitz", "PIL"],
