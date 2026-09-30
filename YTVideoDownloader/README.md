@@ -1,10 +1,19 @@
-# YTVideoDownloader
+# YTVideoDownloader: Desktop Media Download and Playlist Workflows
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
-[![Python Version](https://img.shields.io/badge/python-3.7%2B-blue)](https://www.python.org/downloads/)
-![Platform](https://img.shields.io/badge/platform-windows%20%7C%20macos%20%7C%20linux-lightgrey)
+[![Python](https://img.shields.io/badge/language-Python-blue)](https://www.python.org/downloads/)
 
-A cross-platform GUI application for downloading videos from YouTube, Vimeo, and many other platforms.
+**Status:** Experimental desktop utility with source, unit/integration test code and a Windows executable. Website compatibility changes with upstream yt-dlp and platform behavior.
+
+YTVideoDownloader adds a desktop interface to yt-dlp workflows for selecting formats, processing playlists and merging media with FFmpeg. The project focuses on background jobs, progress feedback, error handling and configurable authentication inputs. Use it only for media you are authorized to download; authenticated requests may send selected cookies to the relevant media service.
+
+## What this project demonstrates
+
+- Background download/playlist jobs with queues, progress and format selection.
+- Integration of yt-dlp and optional FFmpeg with desktop error feedback.
+- Cookie-source precedence and tests for download, playlist and UI scenarios.
+
+A stored Windows artifact does not establish current compatibility with every platform, browser or media site. Review third-party terms and keep session cookies private.
 
 ## Documentation
 
@@ -42,38 +51,28 @@ For development setup, testing, and project conventions, read `CONTRIBUTING.md`.
 - Automatic merging of best video and audio streams
 - Manual audio-video format mixing (select specific video and audio formats to merge)
 - **Automated cookie management for YouTube authentication**
-- **Automatic handling of "Sign in to confirm you're not a bot" errors**
+- Authentication-error feedback and configurable cookie/retry handling
 - **Browser cookie extraction and import support**
 - Progress tracking with visual feedback
 - Custom output directory selection
-- Cross-platform compatibility (Windows, macOS, Linux)
+- Source routes for Windows, macOS and Linux; validate dependencies and site behavior on the target system
 
-## Bundled FFmpeg
+## FFmpeg
 
-This application now includes FFmpeg binaries to ensure all video formats can be downloaded without requiring a separate FFmpeg installation.
+The application checks for a bundled FFmpeg binary under `bin` and otherwise looks on `PATH`. The current source tree does not include a `bin` directory; supply FFmpeg for source installations that need merging or conversion. The contents of a prebuilt executable must be checked separately.
 
-### How it works
-
-1. The application first checks for bundled FFmpeg in the `bin` directory
-2. If found, it uses the bundled version automatically
-3. If not found, it falls back to checking for FFmpeg in the system PATH
-4. If FFmpeg is not available at all, only single formats (video-only or audio-only) can be downloaded
-
-### Benefits
-
-- No need to install FFmpeg separately
-- Works out-of-the-box on all supported platforms
-- All video formats can be downloaded without additional setup
-- Reduced support issues related to missing dependencies
+When FFmpeg is unavailable, merging separate video/audio streams is limited. Codec and format availability depend on the installed build and media source; no universal format support is guaranteed. See [Building from Source](#building-from-source) to include an appropriate FFmpeg binary in your own package.
 
 ## Quick Start
 
 ### Running from Source
 
+Use a Python version supported by the dependencies resolved in your environment. The current requirements include `pywin32` for Windows cookie handling, so the unmodified requirements file is Windows-specific. The shell examples below describe environment activation on other systems, not a validated macOS/Linux install; review platform-specific dependencies before attempting those ports.
+
 1. Clone the repository:
    ```bash
-   git clone <repository-url>
-   cd YTVideoDownloader
+   git clone https://github.com/rodhayl/MovibeCodingProjects.git
+   cd MovibeCodingProjects/YTVideoDownloader
    ```
 
 2. Create and activate a virtual environment:
@@ -95,11 +94,9 @@ This application now includes FFmpeg binaries to ensure all video formats can be
    python main.py
    ```
 
-### Using Pre-built Executable
+### Using the Windows executable
 
-1. Download the latest release (see Releases section)
-2. Extract the archive
-3. Run VideoDownloader.exe (Windows) or VideoDownloader (macOS/Linux)
+The repository contains [dist/VideoDownloader.exe](dist/VideoDownloader.exe). This is a versioned repository artifact, not a separate GitHub Release. Review its source/version and evaluate it with authorized sample media before regular use. No macOS or Linux binary is provided in this tree.
 
 ## Building from Source
 
@@ -120,55 +117,33 @@ To create a standalone executable with bundled FFmpeg:
 
 ### Automatic Cookie Management
 
-YTVideoDownloader includes an advanced cookie management system that automatically handles YouTube's "Sign in to confirm you're not a bot" errors:
+YTVideoDownloader includes cookie-source selection and retry/error handling for authenticated downloads. These mechanisms do not guarantee access or permission to bypass a service restriction:
 
-- **Automatic browser detection**: Extracts cookies from Chrome, Firefox, Edge, and Safari
+- **Browser cookie helpers**: Support depends on the browser, operating system, permissions and upstream libraries
 - **Smart retry logic**: Automatically retries downloads with fresh cookies when authentication fails
-- **Rate limiting**: Prevents triggering additional bot detection
+- **Retry pacing**: Spaces attempts; this does not guarantee that a service will allow them
 - **Fallback mechanisms**: Uses visitor data when cookies aren't available
 
 ### Manual Cookie Import
 
 If you encounter persistent authentication issues, you can manually import cookies:
 
-#### Using Browser Extensions
+#### Manual export and import
 
-1. **Install a cookie export extension**:
-   - **Chrome/Edge**: [Get cookies.txt LOCALLY](https://chrome.google.com/webstore/detail/get-cookiestxt-locally/cclelndahbckbenkjhflpdbgdldlbecc)
-   - **Firefox**: [cookies.txt](https://addons.mozilla.org/en-US/firefox/addon/cookies-txt/)
-   - **Alternative**: [EditThisCookie](https://chrome.google.com/webstore/detail/editthiscookie/fngmhnnpilhplaeedifhccceomclgfbg)
+Only use cookies from an account you control and are authorized to use for the requested media. Review the permissions and provenance of any export tool before installing it. Export only the required service cookies, store the file privately and select it using Cookie Settings / Import Cookie File in the application.
 
-2. **Export YouTube cookies**:
-   - Navigate to `youtube.com` in your browser
-   - Make sure you're logged in to your YouTube account
-   - Click the extension icon
-   - Export cookies for `youtube.com` (save as `.txt` file)
+Cookie files can provide access to an authenticated session. Do not upload them to issues, chat, shared folders or source control. Remove unneeded exports and review the application's temporary-file handling; automatic cleanup is not a guarantee that every copy is gone.
 
-3. **Import cookies in YTVideoDownloader**:
-   - Open the application
-   - Click "Cookie Settings" or "Import Cookie File"
-   - Select your exported cookie file
-   - The application will automatically use these cookies for downloads
-
-#### Best Practices for Cookie Export
-
-- **Use incognito/private browsing**: For better cookie stability
-  1. Open incognito/private window
-  2. Log into YouTube
-  3. Navigate to `https://www.youtube.com/robots.txt`
-  4. Export cookies from this tab
-  5. Close the incognito window immediately
-
-- **Export fresh cookies**: YouTube rotates cookies frequently, so export new ones if downloads fail
+If a service rejects a request, follow its supported access process and restrictions. Repeated retries or fresh cookies do not establish authorization.
 
 ### Troubleshooting Authentication Issues
 
 #### "Sign in to confirm you're not a bot" Error
 
-1. **Automatic handling**: The application should automatically retry with fresh cookies
+1. **Review the error**: Confirm that the media and account access are authorized; retries may still be rejected
 2. **Manual refresh**: Click "Refresh Cookies" button in the application
 3. **Import fresh cookies**: Export new cookies from your browser and import them
-4. **Rate limiting**: Wait 5-10 minutes between download attempts to avoid triggering more blocks
+4. **Respect restrictions**: Stop repeated attempts when the service refuses access and follow its supported guidance
 
 #### Cookie Import Issues
 
@@ -184,16 +159,23 @@ If you encounter persistent authentication issues, you can manually import cooki
 - **Linux**: Cookies are extracted from `~/.config` directories
 - **Permissions**: Ensure the application has read access to browser directories
 
-### Cookie Security & Privacy
+### Cookie security and privacy
 
-- **Local processing**: All cookie extraction and processing happens locally
-- **Temporary files**: Cookie files are automatically cleaned up after use
-- **No data transmission**: Cookies are never sent to external servers
-- **Account safety**: Use throwaway accounts if concerned about potential bans
+- Cookie extraction and preparation happen on the machine, but yt-dlp can transmit selected cookies to the media service for authenticated requests.
+- Keep the browser profile and exported cookie files private. They can contain sensitive session information.
+- Temporary files may be created; inspect cleanup behavior and remove unneeded exports without assuming all copies disappear automatically.
+- Download requests communicate with the selected site and its media infrastructure. Local processing is not a “no data transmission” guarantee.
+- Account restrictions and platform changes can prevent a download. No account-safety or authentication-success rate is claimed.
 
 ## Usage
 
 See the Quick User Guide in this README.
+
+## Development and validation
+
+See [CONTRIBUTING.md](CONTRIBUTING.md) for environment setup and conventions. The test tree contains unit, integration and real-download scenarios. Inspect a test before running it: mocked checks do not establish live-site compatibility, and real-download scenarios require authorized media and network access.
+
+Record the commit, yt-dlp/FFmpeg versions, test scope and skips when reporting results. No authentication-success or universal platform-support metric is asserted here.
 
 ## Contributing
 

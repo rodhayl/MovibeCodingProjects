@@ -1,249 +1,127 @@
-# PDF Utilities
+# PDFUtils: Desktop PDF Processing and OCR Prototype
 
-## ⚠️ Disclaimer
-**This is a "vibe coded" Proof-of-Concept application built as a learning exercise. It comes without guarantees, may contain bugs, and is not production-ready. Use at your own risk.**
+**Status:** Learning-oriented proof of concept with Python source, automated test code and a Windows executable. Document compatibility and optional OCR backends require environment-specific testing.
 
-## 🚀 Quick Start - Download Executable
-**Windows users can download and run the pre-built executable directly:**
-[**📦 Download PDFUtils.exe**](dist/PDFUtils/PDFUtils.exe)
+PDFUtils brings PDF merging, splitting, compression and extraction into a desktop interface, with optional workflows for OCR, tables, barcodes and handwriting recognition. The project demonstrates modular document-processing integration, dependency-aware UI components and packaging. Keep backups of input documents and review extracted content, especially when using OCR or unfamiliar PDF formats.
 
-No Python installation required!
+## What this project demonstrates
 
----
+- Core PDF operations separated from GUI components and feature tabs.
+- Integration of PDF/OCR libraries and optional system dependencies.
+- Tests for document operations, error conditions, launcher behavior and GUI workflows.
+- Windows packaging alongside a source-run application.
 
-A cross-platform desktop application (Windows/Linux) for **merging, splitting, compressing, and extracting pages from PDF files**.
+This is a PoC for evaluation and learning. Feature presence and test code do not establish production readiness, accessibility conformance or correct handling of every PDF.
 
-* Light-weight GUI built with Tkinter / ttkbootstrap (optional) – no heavyweight framework.
-* Core PDF operations implemented with open-source libraries only:
-  * [`pypdf`](https://pypi.org/project/pypdf/) (required) – merge/split/page extraction.
-  * [`pymupdf`](https://pypi.org/project/PyMuPDF/) (optional) – fast in-process compression.
-  * [Ghostscript](https://ghostscript.com/) (optional) – fallback compression backend.
-* 100 % test-covered business logic with `pytest` & `coverage`.
-* **User-friendly defaults:** Output filenames for all operations are automatically suggested based on the input file(s).
+## Windows executable
 
----
+[Download PDFUtils.exe](dist/PDFUtils/PDFUtils.exe)
 
-## Installation
+The executable is versioned in this repository under `dist/PDFUtils/PDFUtils.exe`. It can be evaluated without a separate Python installation. Its presence does not certify compatibility with every Windows environment; use sample documents first.
+
+## Install from source
 
 ```bash
-# Clone the repo
-git clone https://github.com/YOUR_USERNAME/PDFUtils.git && cd PDFUtils
-
-# Install runtime dependencies (add --user or use a venv if desired)
-python -m pip install -r requirements.txt
-
-# Optional: install ttkbootstrap for modern theme
-python -m pip install ttkbootstrap
-# Optional: install PyMuPDF for fast compression
-python -m pip install pymupdf
+git clone https://github.com/rodhayl/MovibeCodingProjects.git
+cd MovibeCodingProjects/PDFUtils
+python -m venv .venv
 ```
 
-> **Note** – If you want Ghostscript compression, install Ghostscript and make sure its executable (`gs`, `gswin64c`, …) is on your `PATH`.
+Activate the environment before installing dependencies:
 
----
-
-## Running the application
+```powershell
+# Windows PowerShell
+.\.venv\Scripts\Activate.ps1
+python -m pip install -r requirements.txt
+```
 
 ```bash
-# From project root
+# Linux/macOS shell
+source .venv/bin/activate
+python -m pip install -r requirements.txt
+```
+
+The project metadata declares Python 3.8+, but the resolved dependencies and optional OCR packages can require a newer or specific Python version. Check installation errors and dependency compatibility in your environment. Windows has a committed executable; other platforms use the source route and need separate validation.
+
+## Run
+
+```bash
 python pdfutils_launcher.py
 ```
 
-* The launcher will automatically create a virtual environment (`.pdfutils_venv`) if needed, install required dependencies, and run the app.
-* **The launcher now reliably detects and remembers the virtual environment on all platforms.**
-* Once set up, you will not be repeatedly prompted to create the environment.
-* If `ttkbootstrap` is present you'll get the **advanced notebook UI**.
-* Otherwise the basic Tkinter interface is launched automatically.
+The launcher can create its own `.pdfutils_venv` and install dependencies. Review its prompts if you already manage a virtual environment. The UI and available features depend on installed libraries and system tools.
 
-### Running the pre-built executable
+## Core operations
 
-A Windows executable is available in the repository at `dist/PDFUtils/PDFUtils.exe`. Simply run:
+| Tab | Operation |
+| --- | --- |
+| Merge | Add, remove and reorder PDFs before merging |
+| Split | Split a PDF into two parts |
+| Compress | Use available PyMuPDF/Ghostscript backends and quality presets |
+| Extract | Export a selected page range |
 
-```bash
-dist/PDFUtils/PDFUtils.exe
-```
+Output names are suggested from the input files. Check the output path and resulting document before replacing an original.
 
-No Python installation required. The executable is a self-contained Windows application.
+Core libraries include `pypdf` for PDF manipulation and PyMuPDF for supported compression/processing paths. Ghostscript is an optional system backend and must be discoverable on `PATH` (`gs`, `gswin64c`, etc.).
 
-### Building a standalone executable
+## OCR and extraction
 
-You can build a standalone executable with PyInstaller or use the helper script:
+Additional tabs and processing paths cover:
 
-```bash
-python -m pip install pyinstaller
-pyinstaller -n PDFUtils -F -w -i assets/pdf.ico -p . -m pdfutils
+- Standard, batch and zonal OCR using Tesseract, with language/model selection.
+- Image preprocessing such as thresholding, contrast, deskew and denoise.
+- Table extraction through Camelot/pdfplumber and structured export.
+- Barcode/QR extraction.
+- Handwriting OCR through optional Kraken integration.
 
-# or
-python build_package.py --name PDFUtils --onefile --windowed
-```
+OCR quality depends on the scan, language, preprocessing and selected model. Review text, tables and coordinates before using extracted results. Kraken is not enabled in the current requirements file because of a documented Python compatibility issue; the presence of its integration is not a claim that it runs in the default environment.
 
-### Features at a glance
+### Optional/system dependencies
 
-| Tab | Functionality |
-|-----|---------------|
-| Merge | Add/remove/re-order multiple PDFs, then merge them. Default output: `<firstfile>_merged.pdf`. |
-| Split | Split a PDF into two parts. Default output: `<original>_split_part1.pdf` and `<original>_split_part2.pdf`. |
-| Compress | Choose a quality preset (`screen`, `ebook`, `printer`, `prepress`) and compress a PDF via PyMuPDF or Ghostscript. Default output: `<original>_compressed.pdf`. |
-| Extract | Export an arbitrary page range into a new file. Default output: `<original>_extracted.pdf`. |
+- **Tesseract:** install the system OCR executable and required language packs.
+- **Ghostscript:** install when using the corresponding compression or PDF processing path.
+- **Barcode support:** `pyzbar` can require the platform's ZBar libraries.
+- **Handwriting:** install a compatible Kraken version and models in a suitable environment.
+- **GUI/headless tests:** a display or virtual display and the relevant GUI libraries are required.
 
-A status bar shows feedback for every operation.
+The consolidated [requirements.txt](requirements.txt) includes application and test dependencies. Review optional features before adding more packages.
 
----
+## Development and testing
 
-## Packaging as a standalone executable (Windows)
+From the `PDFUtils` directory:
 
 ```bash
-python -m pip install pyinstaller
-pyinstaller -n PDFUtils -F -w -i assets/pdf.ico -p . -m pdfutils
-```
-
-* `-w` hides the console; omit if you want to see logs.
-* Provide your own `assets/pdf.ico` for the app icon.
-* Similar commands work for macOS/Linux; AppImage or DMG creation can be scripted in CI.
-
----
-
-## Development & Testing
-
-### Run full test suite + coverage
-
-```bash
-python run_tests.py
-```
-
-### Run launcher tests only
-
-```bash
+python -m pytest -q --cov=pdfutils --cov-config=.coveragerc --cov-report=term-missing
 python -m unittest tests/test_launcher.py
 ```
 
-That script simply executes:
+On a headless Linux host with Xvfb installed, the relevant GUI suite can be run under a virtual display, for example `xvfb-run -a python -m pytest`. Optional tools/models can change which tests execute or skip.
+
+Tests cover specific operations and scenarios; they do not prove that every PDF or UI path works. No current coverage percentage is asserted here. When reporting coverage, include the commit, command, included modules, skipped tests and optional dependencies. Inspect [.coveragerc](.coveragerc) for the actual measurement scope.
+
+## Build a Windows executable
 
 ```bash
-pytest -q --cov=pdfutils --cov-config=.coveragerc --cov-report=term-missing
+python -m pip install pyinstaller
+python build_package.py --name PDFUtils --onefile --windowed
 ```
 
-### GUI test dependencies
+See `python build_package.py --help` for the supported options, including directory bundles and dependency selection. Building a package is separate from testing its installation and runtime behavior.
 
-To run the full test suite (including GUI tests) in headless environments you
-need a Qt backend, a virtual display server, and additional libraries used to
-generate sample PDFs. All of these are provided when installing the development
-requirements:
+## Repository layout
 
-```bash
-python -m pip install -r requirements.txt -r requirements-dev.txt
-sudo apt-get install -y xvfb  # provides the Xvfb binary for pyvirtualdisplay
+```text
+pdfutils/pdf_ops.py       document-processing operations
+pdfutils/gui/components/ reusable GUI components
+pdfutils/tabs/           feature-specific UI tabs
+pdfutils/responsive_app.py
+pdfutils_launcher.py     source launcher
+tests/                  operation, launcher and GUI tests
+docs/                   component documentation
 ```
 
-This installs **PyQt5**, **pyvirtualdisplay**, and **reportlab** so that GUI
-tests and PDF generators work correctly under Xvfb.
-
-
-Business-logic modules (`pdfutils/pdf_ops.py`, `pdfutils/utils.py`) are kept at **100 % line coverage**; GUI files are excluded from coverage stats.
-
-* The test suite covers all major features, including integration tests for compression (PyMuPDF) and launcher logic (venv creation, dependency install, abort scenarios, etc.).
-
-### Project structure (overview)
-
-```
-pdfutils/              # package root
-├── gui.py             # basic GUI
-├── gui_advanced.py    # modern notebook UI (requires ttkbootstrap)
-├── pdf_ops.py         # all PDF operations (merge, split, extract, compress)
-├── utils.py           # logging & Ghostscript helpers
-└── __main__.py        # entry-point – chooses advanced GUI if possible
-pdfutils_launcher.py   # launcher script (handles venv & dependencies)
-```
-
----
+[Component usage](docs/component_usage.md) documents the UI building blocks.
 
 ## License
 
-This project is released under the MIT license. All third-party dependencies are compatible open-source licenses (MIT/BSD/GPL/AGPL). See individual projects for details.
-
----
-
-## Advanced OCR and Extraction
-
-* **Advanced OCR and Extraction:**
-  * Standard, batch, zonal (region-based), and handwriting OCR (Tesseract, Kraken)
-  * Preprocessing: contrast, brightness, adaptive thresholding, sharpening, blur, morphological ops, deskew, denoise, resize
-  * Table extraction (Camelot, pdfplumber)
-  * Barcode/QR extraction (pyzbar, segno)
-  * Output: text, JSON, hOCR, PDF/A, searchable PDF, CSV, image snippets
-  * Language/model selection, Unicode/non-Latin support
-  * Real-time preview and robust error handling
-
-The application includes dedicated tabs for:
-1. **OCR**: Convert scanned PDFs to searchable text with advanced preprocessing options
-2. **Table Extraction**: Extract tables from PDFs to CSV, JSON, Excel, or HTML formats
-3. **Barcode/QR Extraction**: Detect and extract barcodes and QR codes from PDFs
-4. **Zonal OCR**: Select specific regions on a page for targeted OCR processing
-5. **Handwriting OCR**: Specialized OCR for handwritten text using Kraken
-
-Each tab provides dependency checking to ensure required libraries are installed.
-
----
-
-## Optional Dependencies for Advanced Features
-
-* **OCR:** `pytesseract`, `tesseract-ocr`, `kraken` (for handwriting)
-* **Table Extraction:** `camelot-py[cv]`, `pdfplumber`
-* **Barcode/QR:** `pyzbar`, `segno`
-* **Image Preprocessing:** `Pillow`, `scikit-image`
-* **PDF/A Validation:** `pikepdf`, `Ghostscript`
-
-Install these as needed for your workflow:
-```bash
-# Core OCR dependencies
-python -m pip install pytesseract Pillow scikit-image pikepdf
-
-# Table extraction
-python -m pip install camelot-py[cv] pdfplumber
-
-# Barcode/QR code extraction
-python -m pip install pyzbar segno
-
-# Handwriting OCR
-python -m pip install kraken
-```
-
-You'll also need to install Tesseract OCR on your system:
-- Windows: Download from [UB Mannheim](https://github.com/UB-Mannheim/tesseract/wiki)
-- Linux: `sudo apt install tesseract-ocr`
-- macOS: `brew install tesseract`
-
----
-
-## Comprehensive E2E and GUI Test Suite
-
-* All features are covered by robust, parametrized tests:
-  * Synthetic PDFs (text, multipage, image, table, barcode, handwriting)
-  * Real-world PDFs (Jane Eyre, etc.) for zonal OCR testing
-  * All OCR, extraction, and preprocessing options
-  * Output validation (fuzzy match, structure, existence)
-  * Error handling and GUI flows
-* Skipped tests are only due to missing optional dependencies or known OCR limitations on synthetic crops.
-* Coverage tools ensure all critical code paths are exercised, with current coverage at ~63%.
-
-The E2E test suite includes:
-- OCR pipeline testing with different input types
-- Zonal OCR testing on both synthetic and real-world PDFs
-- Table and barcode extraction validation
-- Handwriting recognition with Kraken
-- GUI flow testing for all features
-
-## Project Status
-
-All planned features have been implemented and tested:
-
-- ✅ Core PDF operations (merge, split, compress, extract)
-- ✅ Advanced OCR with preprocessing options
-- ✅ Table extraction
-- ✅ Barcode/QR extraction
-- ✅ Zonal OCR with region selection
-- ✅ Handwriting OCR
-- ✅ End-to-end test suite
-- ✅ Comprehensive documentation
-
-The application is production-ready with a modern, accessible interface that adapts to the available dependencies. The modular design allows for easy extension with additional features in the future.
+See [LICENSE](LICENSE) for this project's terms. Dependencies and externally installed tools retain their own licenses; review the obligations for the combination you distribute.
